@@ -3,7 +3,8 @@
     {
       "id": "4124bc0a9335c27f086f24ba207a4912",
       "username": "aa",
-      "password": "bb"
+      "password": "bb",
+      "loggedIn": true
     }
   ],
   "logs": [
@@ -16,6 +17,36 @@
       "accessingFrom": "::1",
       "userAgent": "insomnia | unknown | unknown",
       "time": 1625327230998
+    },
+    {
+      "id": "0ac353a5-3427-4d9f-9042-d49e6c2ed128",
+      "type": "login-success",
+      "userid": "4124bc0a9335c27f086f24ba207a4912",
+      "username": "aa",
+      "password": "bb",
+      "accessingFrom": "::1",
+      "userAgent": "insomnia | unknown | unknown",
+      "time": 1625441000770
+    },
+    {
+      "id": "85af3f7a-5780-47ac-9b97-18278035b8b7",
+      "type": "login-success",
+      "userid": "4124bc0a9335c27f086f24ba207a4912",
+      "username": "aa",
+      "password": "bb",
+      "accessingFrom": "::1",
+      "userAgent": "insomnia | unknown | unknown",
+      "time": 1625441126018
+    },
+    {
+      "id": "a2b88c29-75d3-4ea9-b3df-b91846408f9a",
+      "type": "login-success",
+      "userid": "4124bc0a9335c27f086f24ba207a4912",
+      "username": "aa",
+      "password": "bb",
+      "accessingFrom": "::1",
+      "userAgent": "insomnia | unknown | unknown",
+      "time": 1625441224252
     }
   ]
 }

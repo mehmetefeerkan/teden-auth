@@ -9,7 +9,6 @@ const crypto = require('crypto')
 var md5 = require('md5');
 const { uuid } = require('uuidv4');
 
-let currentlyy
 
 app.use(express.json())
 app.use(require('express-useragent').express())
@@ -45,7 +44,8 @@ app.post('/register', function (req, res) {
     axios.post('http://localhost:3000/userDB', {
         id: userID,
         username: user.username,
-        password: user.password
+        password: user.password,
+        loggedIn: false
     })
         .then(function (response) {
             if (response.status === 201) {
@@ -70,6 +70,9 @@ app.post('/login', async function (req, res) {
         res.send(403, "USER_DOES_NOT_EXIST")
         canProceed = false
     })
+    axios.patch('http://localhost:3000/userDB/' + generateUserID(user.username), {
+        loggedIn: true
+    })
     if (canProceed) {
         if (userData && (userData.password = user.password)) {
             res.send(200)
@@ -81,6 +84,28 @@ app.post('/login', async function (req, res) {
     }
 })
 
+app.post('/logout', async function (req, res) {
+    console.log("hey")
+    let user = req.body
+    let accessing = req.headers['x-forwarded-for'] || req.socket.remoteAddress 
+    let canProceed = true
+    const userData = await axios.get('http://localhost:3000/userDB/' + generateUserID(user.username)).catch(function (error) {
+        res.send(403, "USER_DOES_NOT_EXIST")
+        canProceed = false
+    })
+    axios.patch('http://localhost:3000/userDB/' + generateUserID(user.username), {
+        loggedIn: false
+    })
+    if (canProceed) {
+        if (userData && (userData.password = user.password)) {
+            res.send(200)
+            log.logout.success(generateUserID(user.username), user.username, user.password, accessing, req.useragent)
+        } else {
+            res.send(403, { error: "INVALID_CREDIDENTIALS" })
+            log.logout.failure(generateUserID(user.username), user.username, user.password, accessing, req.useragent)
+        }
+    }
+})
 
 function generateUserID(usn) {
     return md5(usn)
@@ -144,6 +169,38 @@ const log = {
             axios.post('http://localhost:3000/logs', {
                 id: uuid(),
                 type: "register-failed",
+                userid: userid,
+                username: username,
+                password: password,
+                accessingFrom: accessingFrom,
+                userAgent: (`${useragent.browser} | ${useragent.os} | ${useragent.platform}`),
+                time: Date.now()
+            })
+                .catch(function (error) {
+                    console.log(error)
+                });
+        }
+    },
+    logout: {
+        success: function (userid, username, password, accessingFrom, useragent) {
+            axios.post('http://localhost:3000/logs', {
+                id: uuid(),
+                type: "logout-success",
+                userid: userid,
+                username: username,
+                password: password,
+                accessingFrom: accessingFrom,
+                userAgent: (`${useragent.browser} | ${useragent.os} | ${useragent.platform}`),
+                time: Date.now()
+            })
+                .catch(function (error) {
+                    console.log(error)
+                });
+        },
+        failure: function (userid, username, password, accessingFrom, useragent) {
+            axios.post('http://localhost:3000/logs', {
+                id: uuid(),
+                type: "logout-failed",
                 userid: userid,
                 username: username,
                 password: password,
