@@ -25,6 +25,9 @@ app.use((req, res, next) => {
             res.send(406)
         }
     }
+    else {
+        res.send(406)
+    }
 });
 
 jServer.use(middlewares)
