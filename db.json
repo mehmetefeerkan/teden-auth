@@ -1,0 +1,21 @@
+{
+  "userDB": [
+    {
+      "id": "4124bc0a9335c27f086f24ba207a4912",
+      "username": "aa",
+      "password": "bb"
+    }
+  ],
+  "logs": [
+    {
+      "id": "e8cad450-3e01-4e0e-82b9-973ca9cd050d",
+      "type": "register-success",
+      "userid": "4124bc0a9335c27f086f24ba207a4912",
+      "username": "aa",
+      "password": "bb",
+      "accessingFrom": "::1",
+      "userAgent": "insomnia | unknown | unknown",
+      "time": 1625327230998
+    }
+  ]
+}
