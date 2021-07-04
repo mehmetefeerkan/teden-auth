@@ -5,6 +5,12 @@
       "username": "aa",
       "password": "bb",
       "loggedIn": true
+    },
+    {
+      "id": "3df2beefa4294ac1d53dd26ee10c7773",
+      "username": "aaX",
+      "password": "bbX",
+      "loggedIn": false
     }
   ],
   "logs": [
@@ -47,6 +53,236 @@
       "accessingFrom": "::1",
       "userAgent": "insomnia | unknown | unknown",
       "time": 1625441224252
+    },
+    {
+      "id": "2cda4c80-a7bd-474f-aaa7-69acfe7885af",
+      "type": "register-success",
+      "userid": "3df2beefa4294ac1d53dd26ee10c7773",
+      "username": "aaX",
+      "password": "bbX",
+      "accessingFrom": "127.0.0.1",
+      "userAgent": "insomnia | unknown | unknown",
+      "time": 1625441404065
+    },
+    {
+      "id": "79e333a0-7b75-4dfd-8424-f3e0ebab0d4f",
+      "type": "login-success",
+      "userid": "3df2beefa4294ac1d53dd26ee10c7773",
+      "username": "aaX",
+      "password": "bbX",
+      "accessingFrom": "127.0.0.1",
+      "userAgent": "insomnia | unknown | unknown",
+      "time": 1625441447926
+    },
+    {
+      "id": "3177e090-a849-4341-ba4f-dfe38a782966",
+      "type": "login-success",
+      "userid": "3df2beefa4294ac1d53dd26ee10c7773",
+      "username": "aaX",
+      "password": "bbX",
+      "accessingFrom": "127.0.0.1",
+      "userAgent": "insomnia | unknown | unknown",
+      "time": 1625441498645
+    },
+    {
+      "id": "62dc5658-f58e-4c10-a496-fc5d064069d6",
+      "type": "login-success",
+      "userid": "3df2beefa4294ac1d53dd26ee10c7773",
+      "username": "aaX",
+      "password": "bbX",
+      "accessingFrom": "127.0.0.1",
+      "userAgent": "insomnia | unknown | unknown",
+      "time": 1625441503709
+    },
+    {
+      "id": "818f36af-9250-409f-877f-fc848c25aaf2",
+      "type": "logout-success",
+      "userid": "3df2beefa4294ac1d53dd26ee10c7773",
+      "username": "aaX",
+      "password": "bbX",
+      "accessingFrom": "127.0.0.1",
+      "userAgent": "insomnia | unknown | unknown",
+      "time": 1625441573003
+    },
+    {
+      "id": "ac9db2ec-9b52-4173-88e4-d46853c1a2a1",
+      "type": "logout-success",
+      "userid": "3df2beefa4294ac1d53dd26ee10c7773",
+      "username": "aaX",
+      "password": "bbxX",
+      "accessingFrom": "127.0.0.1",
+      "userAgent": "insomnia | unknown | unknown",
+      "time": 1625441611564
+    },
+    {
+      "id": "ee2dc5ab-9aae-41f0-a4eb-3afd3112b344",
+      "type": "logout-success",
+      "userid": "3df2beefa4294ac1d53dd26ee10c7773",
+      "username": "aaX",
+      "password": "bbxxxxX",
+      "accessingFrom": "127.0.0.1",
+      "userAgent": "insomnia | unknown | unknown",
+      "time": 1625441647515
+    },
+    {
+      "id": "b41f7b65-6eb4-46dd-bfba-ff2938520f7e",
+      "type": "login-success",
+      "userid": "3df2beefa4294ac1d53dd26ee10c7773",
+      "username": "aaX",
+      "password": "bbxxxxX",
+      "accessingFrom": "127.0.0.1",
+      "userAgent": "insomnia | unknown | unknown",
+      "time": 1625441653805
+    },
+    {
+      "id": "1315c630-a069-4ac1-b4f7-d26c531f288f",
+      "type": "login-failed",
+      "userid": "3df2beefa4294ac1d53dd26ee10c7773",
+      "username": "aaX",
+      "password": "bbxxxxX",
+      "accessingFrom": "127.0.0.1",
+      "userAgent": "insomnia | unknown | unknown",
+      "time": 1625441675686
+    },
+    {
+      "id": "b752b6da-91d0-4277-9d4d-3d38298d1fcc",
+      "type": "login-failed",
+      "userid": "3df2beefa4294ac1d53dd26ee10c7773",
+      "username": "aaX",
+      "password": "bbX",
+      "accessingFrom": "127.0.0.1",
+      "userAgent": "insomnia | unknown | unknown",
+      "time": 1625441683559
+    },
+    {
+      "id": "0515769d-8270-4a30-8af5-841ac5410ac6",
+      "type": "login-failed",
+      "userid": "3df2beefa4294ac1d53dd26ee10c7773",
+      "username": "aaX",
+      "password": "bbXx",
+      "accessingFrom": "127.0.0.1",
+      "userAgent": "insomnia | unknown | unknown",
+      "time": 1625441686669
+    },
+    {
+      "id": "ed164c73-24cd-4d4b-8d6e-fec491e4ac0f",
+      "type": "login-failed",
+      "userid": "3df2beefa4294ac1d53dd26ee10c7773",
+      "username": "aaX",
+      "password": "bbXX",
+      "accessingFrom": "127.0.0.1",
+      "userAgent": "insomnia | unknown | unknown",
+      "time": 1625441690495
+    },
+    {
+      "id": "94e8bd71-e827-4829-8d79-72375f23435e",
+      "type": "login-failed",
+      "userid": "3df2beefa4294ac1d53dd26ee10c7773",
+      "username": "aaX",
+      "password": "bbX",
+      "accessingFrom": "127.0.0.1",
+      "userAgent": "insomnia | unknown | unknown",
+      "time": 1625441698141
+    },
+    {
+      "id": "8f697e0e-ece4-4b24-a89a-bb333ca87e60",
+      "type": "login-failed",
+      "userid": "3df2beefa4294ac1d53dd26ee10c7773",
+      "username": "aaX",
+      "password": "bbX",
+      "accessingFrom": "127.0.0.1",
+      "userAgent": "insomnia | unknown | unknown",
+      "time": 1625441724262
+    },
+    {
+      "id": "0b58d2e7-452f-4248-9cbb-39d5055b60dc",
+      "type": "login-failed",
+      "userid": "3df2beefa4294ac1d53dd26ee10c7773",
+      "username": "aaX",
+      "password": "bbX",
+      "accessingFrom": "127.0.0.1",
+      "userAgent": "insomnia | unknown | unknown",
+      "time": 1625441764322
+    },
+    {
+      "id": "6280fe73-62bc-400e-aa36-19732925391b",
+      "type": "login-failed",
+      "userid": "3df2beefa4294ac1d53dd26ee10c7773",
+      "username": "aaX",
+      "password": "bbX",
+      "accessingFrom": "127.0.0.1",
+      "userAgent": "insomnia | unknown | unknown",
+      "time": 1625441780326
+    },
+    {
+      "id": "2a36c2a1-48ee-4522-826c-ca14eca9f03e",
+      "type": "login-failed",
+      "userid": "3df2beefa4294ac1d53dd26ee10c7773",
+      "username": "aaX",
+      "password": "bbX",
+      "accessingFrom": "127.0.0.1",
+      "userAgent": "insomnia | unknown | unknown",
+      "time": 1625441796921
+    },
+    {
+      "id": "7d8e0e90-edcc-42d0-a7ff-d137540342a1",
+      "type": "login-success",
+      "userid": "3df2beefa4294ac1d53dd26ee10c7773",
+      "username": "aaX",
+      "password": "bbX",
+      "accessingFrom": "127.0.0.1",
+      "userAgent": "insomnia | unknown | unknown",
+      "time": 1625441836848
+    },
+    {
+      "id": "1cff0c92-7b3b-484d-8802-ba9b0b623413",
+      "type": "login-failed",
+      "userid": "3df2beefa4294ac1d53dd26ee10c7773",
+      "username": "aaX",
+      "password": "bxbX",
+      "accessingFrom": "127.0.0.1",
+      "userAgent": "insomnia | unknown | unknown",
+      "time": 1625441841188
+    },
+    {
+      "id": "8a9edd42-f499-4d3c-9c2a-126e02b9a4b0",
+      "type": "login-success",
+      "userid": "3df2beefa4294ac1d53dd26ee10c7773",
+      "username": "aaX",
+      "password": "bbX",
+      "accessingFrom": "127.0.0.1",
+      "userAgent": "insomnia | unknown | unknown",
+      "time": 1625441843726
+    },
+    {
+      "id": "a60934c7-d065-4864-8495-a9c460f81a8d",
+      "type": "logout-failed",
+      "userid": "3df2beefa4294ac1d53dd26ee10c7773",
+      "username": "aaX",
+      "password": "bbX",
+      "accessingFrom": "127.0.0.1",
+      "userAgent": "insomnia | unknown | unknown",
+      "time": 1625441945370
+    },
+    {
+      "id": "94d10e12-552f-4858-9c40-6448bda5ec3e",
+      "type": "logout-failed",
+      "userid": "3df2beefa4294ac1d53dd26ee10c7773",
+      "username": "aaX",
+      "password": "bbX",
+      "accessingFrom": "127.0.0.1",
+      "userAgent": "insomnia | unknown | unknown",
+      "time": 1625441947961
+    },
+    {
+      "id": "d9270419-83b9-484c-bffa-5610521f7882",
+      "type": "logout-success",
+      "userid": "3df2beefa4294ac1d53dd26ee10c7773",
+      "username": "aaX",
+      "password": "bbX",
+      "accessingFrom": "127.0.0.1",
+      "userAgent": "insomnia | unknown | unknown",
+      "time": 1625441952647
     }
   ]
 }

@@ -13,14 +13,15 @@ const { uuid } = require('uuidv4');
 app.use(express.json())
 app.use(require('express-useragent').express())
 
+let strictRoutes = ["/login", "/register", "/logout"]
 
 app.use((req, res, next) => {
     let acAd = req.originalUrl
-    if (acAd === "/login" || acAd === "/register"){
-        if (req.body.username && req.body.password && req.body){
+    if (strictRoutes.includes(acAd)) {
+        if (req.body.username && req.body.password && req.body) {
             next()
         }
-        else{
+        else {
             res.send(406)
         }
     }
@@ -39,13 +40,14 @@ jServer.listen(3000, () => {
 app.post('/register', function (req, res) {
     let user = req.body
     let userID = generateUserID(user.username)
-    let accessing = req.headers['x-forwarded-for'] || req.socket.remoteAddress 
+    let accessing = req.headers['x-forwarded-for'] || req.socket.remoteAddress
 
     axios.post('http://localhost:3000/userDB', {
         id: userID,
         username: user.username,
         password: user.password,
-        loggedIn: false
+        loggedIn: false,
+        requests: 0
     })
         .then(function (response) {
             if (response.status === 201) {
@@ -58,13 +60,13 @@ app.post('/register', function (req, res) {
             }
         })
         .catch(function (error) {
-            console.log(error)
+            res.send(406, "USER_ALREADY_EXISTS")
         });
 })
 
 app.post('/login', async function (req, res) {
     let user = req.body
-    let accessing = req.headers['x-forwarded-for'] || req.socket.remoteAddress 
+    let accessing = req.headers['x-forwarded-for'] || req.socket.remoteAddress
     let canProceed = true
     const userData = await axios.get('http://localhost:3000/userDB/' + generateUserID(user.username)).catch(function (error) {
         res.send(403, "USER_DOES_NOT_EXIST")
@@ -74,8 +76,8 @@ app.post('/login', async function (req, res) {
         loggedIn: true
     })
     if (canProceed) {
-        if (userData && (userData.password = user.password)) {
-            res.send(200)
+        if ((userData.data.password === user.password)) {
+            res.send(200, { userID: generateUserID(user.username) })
             log.login.success(generateUserID(user.username), user.username, user.password, accessing, req.useragent)
         } else {
             res.send(403, { error: "INVALID_CREDIDENTIALS" })
@@ -85,9 +87,8 @@ app.post('/login', async function (req, res) {
 })
 
 app.post('/logout', async function (req, res) {
-    console.log("hey")
     let user = req.body
-    let accessing = req.headers['x-forwarded-for'] || req.socket.remoteAddress 
+    let accessing = req.headers['x-forwarded-for'] || req.socket.remoteAddress
     let canProceed = true
     const userData = await axios.get('http://localhost:3000/userDB/' + generateUserID(user.username)).catch(function (error) {
         res.send(403, "USER_DOES_NOT_EXIST")
@@ -97,7 +98,7 @@ app.post('/logout', async function (req, res) {
         loggedIn: false
     })
     if (canProceed) {
-        if (userData && (userData.password = user.password)) {
+        if (userData.data.password === user.password) {
             res.send(200)
             log.logout.success(generateUserID(user.username), user.username, user.password, accessing, req.useragent)
         } else {
@@ -107,12 +108,42 @@ app.post('/logout', async function (req, res) {
     }
 })
 
+app.post('/talkAuth', async function (req, res) {
+    let userIdentifier = req.body.userid
+    if (userIdentifier !== undefined) {
+        let accessing = req.headers['x-forwarded-for'] || req.socket.remoteAddress
+        let canProceed = true
+        const userData = await axios.get('http://localhost:3000/userDB/' + userIdentifier).catch(function (error) {
+            res.send(403, "USER_DOES_NOT_EXIST")
+            canProceed = false
+        })
+        axios.patch('http://localhost:3000/userDB/' + userIdentifier, {
+            requests: userData.requests + 1
+        })
+        if (canProceed) {
+            if (userData.data.loggedIn) {
+                res.send(200)
+            }
+            else {
+                res.send(403, { error: "USER_NOT_LOGGED_IN" })
+            }
+        } else {
+            res.send(403, { error: "INVALID_CREDIDENTIALS" })
+        }
+    }
+    else {
+        res.send(405)
+    }
+})
+
+
+
 function generateUserID(usn) {
     return md5(usn)
 }
 
 
-app.listen(3322, () => {
+app.listen(3322, "127.0.0.1", () => {
     console.log('Express Server is running')
 })
 
