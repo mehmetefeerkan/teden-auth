@@ -25,11 +25,11 @@ app.use((req, res, next) => {
             next()
         }
         else {
-            res.send(200, {error: "INVALID_REQUEST"})
+            res.send(200, { error: "INVALID_REQUEST" })
         }
     }
     else {
-        res.send(200, {error: "INVALID_REQUEST"})
+        res.send(200, { error: "INVALID_REQUEST" })
     }
 });
 
@@ -61,7 +61,7 @@ app.post('/register', function (req, res) {
                 log.register.success(generateUserID(user.username), user.username, user.password, accessing, req.useragent)
             }
             else {
-                res.send(200, {error: "INVALID_CREDIDENTIALS"})
+                res.send(200, { error: "INVALID_CREDIDENTIALS" })
                 log.register.failure(generateUserID(user.username), user.username, user.password, accessing, req.useragent)
             }
         })
@@ -92,25 +92,29 @@ app.post('/login', async function (req, res) {
     }
 })
 
-app.post('/logout', async function (req, res) {
-    let user = req.body
-    let accessing = req.headers['x-forwarded-for'] || req.socket.remoteAddress
-    let canProceed = true
-    const userData = await axios.get('http://localhost:3000/userDB/' + generateUserID(user.username)).catch(function (error) {
-        res.send(200, "USER_DOES_NOT_EXIST")
-        canProceed = false
-    })
-    axios.patch('http://localhost:3000/userDB/' + generateUserID(user.username), {
-        loggedIn: false
-    })
-    if (canProceed) {
-        if (userData.data.password === user.password) {
-            res.send(200)
-            log.logout.success(generateUserID(user.username), user.username, user.password, accessing, req.useragent)
-        } else {
-            res.send(200, { error: "INVALID_CREDIDENTIALS" })
-            log.logout.failure(generateUserID(user.username), user.username, user.password, accessing, req.useragent)
+app.post('/logout/:userid', async function (req, res) {
+    let userIdentifier = req.params.userid
+    if (userIdentifier !== undefined) {
+        let accessing = req.headers['x-forwarded-for'] || req.socket.remoteAddress
+        let canProceed = true
+        const userData = await axios.get('http://localhost:3000/userDB/' + userIdentifier).catch(function (error) {
+            res.send(200, "USER_DOES_NOT_EXIST")
+            canProceed = false
+        })
+        if (canProceed) {
+            if (userData.data.loggedIn) {
+                axios.patch('http://localhost:3000/userDB/' + userIdentifier, {
+                    loggedIn: false
+                })
+                res.send(200)
+            }
+            else {
+                res.send(200, { error: "USER_NOT_LOGGED_IN" })
+            }
         }
+    }
+    else {
+        res.send(200, {error: "INVALID_REQUEST"})
     }
 })
 
