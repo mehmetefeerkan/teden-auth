@@ -147,7 +147,8 @@ app.post('/talkAuth', async function (req, res) {
 })
 
 app.get('/logs', async function (req, res) {
-    const logData = await axios.get('http://localhost:3000/logs/' + generateUserID(user.username)).catch(function (error) {
+    let canProceed = true
+    const logData = await axios.get('http://localhost:3000/logs/').catch(function (error) {
         res.send(200, { userID: "UNKNOWN_DATABASE_ERROR" })
         canProceed = false
     })
