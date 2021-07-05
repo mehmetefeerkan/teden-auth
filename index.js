@@ -9,10 +9,12 @@ const crypto = require('crypto')
 var md5 = require('md5');
 const { uuid } = require('uuidv4');
 const fs = require('fs')
+const cors = require('cors')
 
 
 app.use(express.json())
 app.use(require('express-useragent').express())
+app.use(cors())
 
 let strictRoutes = ["/login", "/register", "/logout"]
 
@@ -23,11 +25,11 @@ app.use((req, res, next) => {
             next()
         }
         else {
-            res.send(406)
+            res.send(200, {error: "INVALID_REQUEST"})
         }
     }
     else {
-        res.send(406)
+        res.send(200, {error: "INVALID_REQUEST"})
     }
 });
 
@@ -59,12 +61,12 @@ app.post('/register', function (req, res) {
                 log.register.success(generateUserID(user.username), user.username, user.password, accessing, req.useragent)
             }
             else {
-                res.send(403)
+                res.send(200, {error: "INVALID_CREDIDENTIALS"})
                 log.register.failure(generateUserID(user.username), user.username, user.password, accessing, req.useragent)
             }
         })
         .catch(function (error) {
-            res.send(406, "USER_ALREADY_EXISTS")
+            res.send(200, "USER_ALREADY_EXISTS")
         });
 })
 
@@ -84,7 +86,7 @@ app.post('/login', async function (req, res) {
             res.send(200, { userID: generateUserID(user.username) })
             log.login.success(generateUserID(user.username), user.username, user.password, accessing, req.useragent)
         } else {
-            res.send(403, { error: "INVALID_CREDIDENTIALS" })
+            res.send(200, { error: "INVALID_CREDIDENTIALS" })
             log.login.failure(generateUserID(user.username), user.username, user.password, accessing, req.useragent)
         }
     }
@@ -95,7 +97,7 @@ app.post('/logout', async function (req, res) {
     let accessing = req.headers['x-forwarded-for'] || req.socket.remoteAddress
     let canProceed = true
     const userData = await axios.get('http://localhost:3000/userDB/' + generateUserID(user.username)).catch(function (error) {
-        res.send(403, "USER_DOES_NOT_EXIST")
+        res.send(200, "USER_DOES_NOT_EXIST")
         canProceed = false
     })
     axios.patch('http://localhost:3000/userDB/' + generateUserID(user.username), {
@@ -106,7 +108,7 @@ app.post('/logout', async function (req, res) {
             res.send(200)
             log.logout.success(generateUserID(user.username), user.username, user.password, accessing, req.useragent)
         } else {
-            res.send(403, { error: "INVALID_CREDIDENTIALS" })
+            res.send(200, { error: "INVALID_CREDIDENTIALS" })
             log.logout.failure(generateUserID(user.username), user.username, user.password, accessing, req.useragent)
         }
     }
