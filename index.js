@@ -92,7 +92,7 @@ app.post('/login', async function (req, res) {
     }
 })
 
-app.post('/logout/:userid', async function (req, res) {
+app.get('/logout/:userid', async function (req, res) {
     let userIdentifier = req.params.userid
     if (userIdentifier !== undefined) {
         let accessing = req.headers['x-forwarded-for'] || req.socket.remoteAddress
