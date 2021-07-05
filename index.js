@@ -29,7 +29,7 @@ app.use((req, res, next) => {
         }
     }
     else {
-        res.send(200, { error: "INVALID_REQUEST" })
+        next()
     }
 });
 
@@ -146,7 +146,15 @@ app.post('/talkAuth', async function (req, res) {
     }
 })
 
-
+app.get('/logs', async function (req, res) {
+    const logData = await axios.get('http://localhost:3000/logs/' + generateUserID(user.username)).catch(function (error) {
+        res.send(200, { userID: "UNKNOWN_DATABASE_ERROR" })
+        canProceed = false
+    })
+    if (canProceed){
+        res.send(logData)
+    }
+})
 
 function generateUserID(usn) {
     return md5(usn)
