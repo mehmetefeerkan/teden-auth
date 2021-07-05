@@ -75,7 +75,7 @@ app.post('/login', async function (req, res) {
     let accessing = req.headers['x-forwarded-for'] || req.socket.remoteAddress
     let canProceed = true
     const userData = await axios.get('http://localhost:3000/userDB/' + generateUserID(user.username)).catch(function (error) {
-        res.send(403, "USER_DOES_NOT_EXIST")
+        res.send(200, { userID: "INVALID_CREDIDENTIALS" })
         canProceed = false
     })
     axios.patch('http://localhost:3000/userDB/' + generateUserID(user.username), {
