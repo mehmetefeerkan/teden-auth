@@ -8,6 +8,7 @@ const axios = require('axios')
 const crypto = require('crypto')
 var md5 = require('md5');
 const { uuid } = require('uuidv4');
+const fs = require('fs')
 
 
 app.use(express.json())
@@ -145,10 +146,10 @@ function generateUserID(usn) {
     return md5(usn)
 }
 
-
+/*
 app.listen(3322, "127.0.0.1", () => {
     console.log('Express Server is running')
-})
+}) */
 
 const log = {
     login: {
@@ -248,3 +249,23 @@ const log = {
         }
     }
 }
+
+
+
+const https = require('https');
+const http = require('http');
+
+const httpServer = http.createServer(app);
+
+const httpsServer = https.createServer({
+    key: fs.readFileSync('./privkey.pem'),
+    cert: fs.readFileSync('./fullchain.pem'),
+}, app);
+
+httpServer.listen(80, () => {
+    console.log('HTTP Server running on port 80');
+});
+
+httpsServer.listen(443, () => {
+    console.log('HTTPS Server running on port 443');
+});
