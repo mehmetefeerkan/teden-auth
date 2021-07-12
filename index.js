@@ -10,6 +10,7 @@ var md5 = require('md5');
 const { uuid } = require('uuidv4');
 const fs = require('fs')
 const cors = require('cors')
+const envar = require(__dirname + "/env.json")
 
 
 app.use(express.json())
@@ -36,7 +37,7 @@ app.use((req, res, next) => {
 jServer.use(middlewares)
 jServer.use(router)
 
-jServer.listen(3000, () => {
+jServer.listen(envar.databasePort, () => {
     console.log('JSON Server is running')
 })
 
@@ -273,14 +274,14 @@ const http = require('http');
 const httpServer = http.createServer(app);
 
 const httpsServer = https.createServer({
-    key: fs.readFileSync('./privkey.pem'),
-    cert: fs.readFileSync('./fullchain.pem'),
+    key: fs.readFileSync(envar.privKey),
+    cert: fs.readFileSync(envar.fullChain),
 }, app);
 
-httpServer.listen(80, () => {
+httpServer.listen(80, (envar.hostIp), () => {
     console.log('HTTP Server running on port 80');
 });
 
-httpsServer.listen(443, () => {
+httpsServer.listen(443, (envar.hostIp), () => {
     console.log('HTTPS Server running on port 443');
 });
