@@ -20,6 +20,7 @@ app.use(express.json()); /*                                           */console.
 app.use(require('express-useragent').express()); /*                   */console.log("Express middlewares loaded 3/2"),
 app.use(cors()); /*                                                   */console.log("Express middlewares loaded 3/3");
 const lockdown = false
+const sha256 = require('sha256')
 
 
 //         console.log(Object.keys(baz).length)
