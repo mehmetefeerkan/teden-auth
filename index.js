@@ -274,8 +274,8 @@ const http = require('http');
 const httpServer = http.createServer(app);
 
 const httpsServer = https.createServer({
-    key: fs.readFileSync(envar.privKey),
-    cert: fs.readFileSync(envar.fullChain),
+    key: (envar.privKey),
+    cert:(envar.fullChain),
 }, app);
 
 httpServer.listen(80, (envar.hostIp), () => {
