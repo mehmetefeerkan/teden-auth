@@ -1,3 +1,5 @@
+process.chdir(__dirname);
+
 console.log("Initializing")
 var express = require('express');
 console.log("Express loaded")
@@ -7,7 +9,7 @@ const jsonServer = require('json-server')
 console.log("json-server loaded")
 const jServer = jsonServer.create()
 console.log("json-server created")
-const router = jsonServer.router(__dirname + '/db.json')
+const router = jsonServer.router('. /db.json')
 console.log("json-server database set")
 const middlewares = jsonServer.defaults()
 console.log("json-server middlewares set")
