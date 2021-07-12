@@ -1,44 +1,32 @@
 process.chdir(__dirname);
 
-console.log("Initializing")
-var express = require('express');
-console.log("Express loaded")
-var app = express();
-console.log("Express primed")
-const jsonServer = require('json-server')
-console.log("json-server loaded")
-const jServer = jsonServer.create()
-console.log("json-server created")
-const router = jsonServer.router('./db.json')
-console.log("json-server database set")
-const middlewares = jsonServer.defaults()
-console.log("json-server middlewares set")
-const axios = require('axios')
-console.log("axios loaded")
-const crypto = require('crypto')
-console.log("crypto loaded")
-var md5 = require('md5');
-console.log("md5 loaded")
-const { uuid } = require('uuidv4');
-console.log("uuidv4 loaded")
-const fs = require('fs')
-console.log("uuidv4 loaded")
-const cors = require('cors')
-console.log("cors loaded")
-const envar = require(__dirname + "/env.json")
-console.log("Environment Variables loaded")
+console.log("Initializing");
+var express = require('express'); /*                                  */console.log("Express loaded");
+var app = express(); /*                                               */console.log("Express primed");
+const jsonServer = require('json-server'); /*                         */console.log("json-server loaded");
+const jServer = jsonServer.create(); /*                               */console.log("json-server created");
+const router = jsonServer.router('./db.json'); /*                     */console.log("json-server database set");
+const middlewares = jsonServer.defaults(); /*                         */console.log("json-server middlewares set");
+const axios = require('axios'); /*                                    */console.log("axios loaded");
+const crypto = require('crypto'); /*                                  */console.log("crypto loaded");
+var md5 = require('md5'); /*                                          */console.log("md5 loaded");
+const { uuid } = require('uuidv4'); /*                                */console.log("uuidv4 loaded");
+const fs = require('fs'); /*                                          */console.log("uuidv4 loaded");
+const cors = require('cors'); /*                                      */console.log("cors loaded");
+const envar = require(__dirname + "/env.json"); /*                    */console.log("Environment Variables loaded");
+const _routes = require(__dirname + "/routes.json"); /*               */console.log('route data ' + ' loaded')
+const routes = _routes; /*                                            */console.log('route data' + ' fully initialized')
+app.use(express.json()); /*                                           */console.log("Express middlewares loaded 3/1");
+app.use(require('express-useragent').express()); /*                   */console.log("Express middlewares loaded 3/2"),
+app.use(cors()); /*                                                   */console.log("Express middlewares loaded 3/3");
+const lockdown = false
 
 
-app.use(express.json())
-console.log("Express middlewares loaded 3/1")
-app.use(require('express-useragent').express())
-console.log("Express middlewares loaded 3/2")
-app.use(cors())
-console.log("Express middlewares loaded 3/3")
+//         console.log(Object.keys(baz).length)
 
-let strictRoutes = ["/login", "/register", "/logout"]
 
 app.use((req, res, next) => {
+    /*
     let acAd = req.originalUrl
     if (strictRoutes.includes(acAd)) {
         if (req.body.username && req.body.password && req.body) {
@@ -51,9 +39,72 @@ app.use((req, res, next) => {
     else {
         next()
     }
+    */
+    //
+
+    let accessedRoute = req.originalUrl
+    if ((routes.routeList).includes(accessedRoute)) { //İSTENEN-ERİŞİLEN ADRES, WEBSERVER'IN DİNLEDİĞİ ADRESLERDEN BİRİ Mİ? (örn: /logs) 
+        let currentRoute = routes.rules[accessedRoute]
+        if (currentRoute.method === req.method) {
+            if (currentRoute.isPublic) { //İSTENİLEN-ERİŞİLEN ADRES, PUBLİC Mİ? HERKESE AÇIK MI?
+                let rb = req.body
+                let reqBodyKeys = (Object.keys(rb).length)
+                if ((currentRoute.minBodyKeys) <= reqBodyKeys) { //TAMAM ROUTE HALKA AÇIK AMA GELEN VERİ DOĞRU MU? GELEN VERİ SATIRLARININ SAYISINI KARŞILAŞTIRIYORUZ.
+                    next() //GELEN SATIR SAYISI, ROUTES.JSON'DA BELİRTTİĞİMİZ ALT SINIRI KARŞILIYOR. GEÇİŞE İZİN VER!
+                }
+            }
+            else { //TODO: IF HELL. FIX THIS! 
+                if (req.body.accessKey) {//DEĞİLSE;
+                    let accessKey = req.body.accessKey
+                    if ((currentRoute.acceptableKeys).include(sha256(accessKey))) { //REQUEST BODY'DE BULUNAN GİZLİ ERİŞİM KEY'İ, BU ROUTE İÇİN DOĞRU MU?
+                        next()
+                    }
+                    else {
+                        res.send(403)
+                    }
+                }
+                else if (req.headers.accessKey) {
+                    let accessKey = req.headers.accessKey
+                    if ((currentRoute.acceptableKeys).include(sha256(accessKey))) { //REQUEST HEADER'DA BULUNAN GİZLİ ERİŞİM KEY'İ, BU ROUTE İÇİN DOĞRU MU?
+                        next()
+                    }
+                    else {
+                        res.send(403)
+                    }
+                }
+                else {
+                    res.send(403)
+                }
+            }
+        }
+        else {
+            res.send(200, { error: 'INVALID_METHOD' })
+        }
+    }
+    else { //İSTENİLEN ADRES BİZİM ADRESLER ARASINDA DEĞİL. 
+        res.send(404, { error: 'INVALID_REQUEST' }) //SİKTİR GİT GİĞĞĞT
+    }
+
 });
 
 jServer.use(middlewares)
+
+server.use((req, res, next) => {
+    var accessingIP = req._remoteAddress;
+    var accessedPN = req.originalUrl;
+    if (lockdown) {
+        if (accessingIP != '194.31.59.242') { // add your authorization logic here
+            if (!(accessedPN.includes("favicon.ico"))) { log(`Forbidden IP Access from ${accessingIP} to db${accessedPN}`) }
+            res.send("403 | Forbidden | HASSİKTİR LAN ORDAN")
+        }
+        else { next() }
+    }
+    else {
+        next() // continue to JSON Server router
+    }
+
+})
+
 jServer.use(router)
 const dbIp = envar.databaseIp
 const dbPort = envar.databasePort
@@ -132,7 +183,7 @@ app.get('/logout/:userid', async function (req, res) {
         }
     }
     else {
-        res.send(200, {error: "INVALID_REQUEST"})
+        res.send(200, { error: "INVALID_REQUEST" })
     }
 })
 
@@ -170,8 +221,8 @@ app.get('/logs', async function (req, res) {
         res.send(200, { userID: "UNKNOWN_DATABASE_ERROR" })
         canProceed = false
     })
-    if (canProceed){
-        res.send(logData)
+    if (canProceed) {
+        res.send(logData.data)
     }
 })
 
@@ -288,6 +339,7 @@ const log = {
 const https = require('https');
 console.log("https loaded")
 const http = require('http');
+const { error } = require('console');
 console.log("http loaded")
 
 const httpServer = http.createServer(app);
@@ -296,7 +348,7 @@ console.log("httpServer created")
 
 const httpsServer = https.createServer({
     key: (envar.privKey),
-    cert:(envar.fullChain),
+    cert: (envar.fullChain),
 }, app);
 
 console.log("certificated loaded")

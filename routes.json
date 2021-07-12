@@ -1,0 +1,30 @@
+{
+    "routeList": ["/logs", "/register", "/login", "/logout"],
+    "rules":{
+        "/logs":{
+            "acceptableKeys": ["c1530125983bf4aa4a16a40c7639a3548685cab550213464877677b8f897b9de"],
+            "method":"GET",
+            "minBodyKeys": 0,
+            "isPublic": false
+        },
+        "/register":{
+            "acceptableKeys": [],
+            "method":"POST",
+            "minBodyKeys": 2,
+            "isPublic": true
+        },
+        "/login":{
+            "acceptableKeys": [],
+            "method":"POST",
+            "minBodyKeys": 2,
+            "isPublic": true
+        },
+        "/logout":{
+            "acceptableKeys": [],
+            "method":"GET",
+            "minBodyKeys": 0,
+            "isPublic": true
+        }
+    }
+}
+
