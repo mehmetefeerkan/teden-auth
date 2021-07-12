@@ -53,9 +53,10 @@ app.use((req, res, next) => {
 
 jServer.use(middlewares)
 jServer.use(router)
-
-jServer.listen(envar.databasePort, () => {
-    console.log('JSON Server is running')
+const dbIp = envar.databaseIp
+const dbPort = envar.databasePort
+jServer.listen(dbPort, dbIp, () => {
+    console.log('JSON Server is running on ' + dbIp + ':' + dbPort)
 })
 
 
@@ -66,7 +67,7 @@ app.post('/register', function (req, res) {
     let userID = generateUserID(user.username)
     let accessing = req.headers['x-forwarded-for'] || req.socket.remoteAddress
 
-    axios.post('http://localhost:3000/userDB', {
+    axios.post(`http://${dbIp}:${dbPort}/userDB/`, {
         id: userID,
         username: user.username,
         password: user.password,
@@ -92,11 +93,11 @@ app.post('/login', async function (req, res) {
     let user = req.body
     let accessing = req.headers['x-forwarded-for'] || req.socket.remoteAddress
     let canProceed = true
-    const userData = await axios.get('http://localhost:3000/userDB/' + generateUserID(user.username)).catch(function (error) {
+    const userData = await axios.get(`http://${dbIp}:${dbPort}/userDB/` + generateUserID(user.username)).catch(function (error) {
         res.send(200, { userID: "INVALID_CREDIDENTIALS" })
         canProceed = false
     })
-    axios.patch('http://localhost:3000/userDB/' + generateUserID(user.username), {
+    axios.patch(`http://${dbIp}:${dbPort}/userDB/` + generateUserID(user.username), {
         loggedIn: true
     })
     if (canProceed) {
@@ -115,13 +116,13 @@ app.get('/logout/:userid', async function (req, res) {
     if (userIdentifier !== undefined) {
         let accessing = req.headers['x-forwarded-for'] || req.socket.remoteAddress
         let canProceed = true
-        const userData = await axios.get('http://localhost:3000/userDB/' + userIdentifier).catch(function (error) {
+        const userData = await axios.get(`http://${dbIp}:${dbPort}/userDB/` + userIdentifier).catch(function (error) {
             res.send(200, "USER_DOES_NOT_EXIST")
             canProceed = false
         })
         if (canProceed) {
             if (userData.data.loggedIn) {
-                axios.patch('http://localhost:3000/userDB/' + userIdentifier, {
+                axios.patch(`http://${dbIp}:${dbPort}/userDB/` + userIdentifier, {
                     loggedIn: false
                 })
                 res.send(200)
@@ -141,11 +142,11 @@ app.post('/talkAuth', async function (req, res) {
     if (userIdentifier !== undefined) {
         let accessing = req.headers['x-forwarded-for'] || req.socket.remoteAddress
         let canProceed = true
-        const userData = await axios.get('http://localhost:3000/userDB/' + userIdentifier).catch(function (error) {
+        const userData = await axios.get(`http://${dbIp}:${dbPort}/userDB/` + userIdentifier).catch(function (error) {
             res.send(403, "USER_DOES_NOT_EXIST")
             canProceed = false
         })
-        axios.patch('http://localhost:3000/userDB/' + userIdentifier, {
+        axios.patch(`http://${dbIp}:${dbPort}/userDB/` + userIdentifier, {
             requests: userData.requests + 1
         })
         if (canProceed) {
@@ -166,7 +167,7 @@ app.post('/talkAuth', async function (req, res) {
 
 app.get('/logs', async function (req, res) {
     let canProceed = true
-    const logData = await axios.get('http://localhost:3000/logs/').catch(function (error) {
+    const logData = await axios.get(`http://${dbIp}:${dbPort}/logs`).catch(function (error) {
         res.send(200, { userID: "UNKNOWN_DATABASE_ERROR" })
         canProceed = false
     })
@@ -187,7 +188,7 @@ app.listen(3322, "127.0.0.1", () => {
 const log = {
     login: {
         success: function (userid, username, password, accessingFrom, useragent) {
-            axios.post('http://localhost:3000/logs', {
+            axios.post(`http://${dbIp}:${dbPort}/logs`, {
                 id: uuid(),
                 type: "login-success",
                 userid: userid,
@@ -202,7 +203,7 @@ const log = {
                 });
         },
         failure: function (userid, username, password, accessingFrom, useragent) {
-            axios.post('http://localhost:3000/logs', {
+            axios.post(`http://${dbIp}:${dbPort}/logs`, {
                 id: uuid(),
                 type: "login-failed",
                 userid: userid,
@@ -219,7 +220,7 @@ const log = {
     },
     register: {
         success: function (userid, username, password, accessingFrom, useragent) {
-            axios.post('http://localhost:3000/logs', {
+            axios.post(`http://${dbIp}:${dbPort}/logs`, {
                 id: uuid(),
                 type: "register-success",
                 userid: userid,
@@ -234,7 +235,7 @@ const log = {
                 });
         },
         failure: function (userid, username, password, accessingFrom, useragent) {
-            axios.post('http://localhost:3000/logs', {
+            axios.post(`http://${dbIp}:${dbPort}/logs`, {
                 id: uuid(),
                 type: "register-failed",
                 userid: userid,
@@ -251,7 +252,7 @@ const log = {
     },
     logout: {
         success: function (userid, username, password, accessingFrom, useragent) {
-            axios.post('http://localhost:3000/logs', {
+            axios.post(`http://${dbIp}:${dbPort}/logs`, {
                 id: uuid(),
                 type: "logout-success",
                 userid: userid,
@@ -266,7 +267,7 @@ const log = {
                 });
         },
         failure: function (userid, username, password, accessingFrom, useragent) {
-            axios.post('http://localhost:3000/logs', {
+            axios.post(`http://${dbIp}:${dbPort}/logs`, {
                 id: uuid(),
                 type: "logout-failed",
                 userid: userid,
