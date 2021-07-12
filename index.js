@@ -55,7 +55,7 @@ app.use((req, res, next) => {
             }
             else { //TODO: IF HELL. FIX THIS! 
                 if (req.body.accessKey) {//DEĞİLSE;
-                    let accessKey = req.body.accessKey
+                    let accessKey = req.body.accesskey
                     if ((currentRoute.acceptableKeys).include(sha256(accessKey))) { //REQUEST BODY'DE BULUNAN GİZLİ ERİŞİM KEY'İ, BU ROUTE İÇİN DOĞRU MU?
                         next()
                     }
@@ -64,7 +64,7 @@ app.use((req, res, next) => {
                     }
                 }
                 else if (req.headers.accessKey) {
-                    let accessKey = req.headers.accessKey
+                    let accessKey = req.headers.accesskey
                     if ((currentRoute.acceptableKeys).include(sha256(accessKey))) { //REQUEST HEADER'DA BULUNAN GİZLİ ERİŞİM KEY'İ, BU ROUTE İÇİN DOĞRU MU?
                         next()
                     }
