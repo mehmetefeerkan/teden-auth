@@ -89,7 +89,7 @@ app.use((req, res, next) => {
 
 jServer.use(middlewares)
 
-server.use((req, res, next) => {
+jServer.use((req, res, next) => {
     var accessingIP = req._remoteAddress;
     var accessedPN = req.originalUrl;
     if (lockdown) {
