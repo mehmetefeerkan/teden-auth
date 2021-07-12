@@ -57,9 +57,6 @@ jServer.use(middlewares)
 jServer.use(router)
 const dbIp = envar.databaseIp
 const dbPort = envar.databasePort
-jServer.listen(dbPort, dbIp, () => {
-    console.log('JSON Server is running on ' + dbIp + ':' + dbPort)
-})
 
 
 
@@ -312,3 +309,7 @@ httpServer.listen(80, (envar.hostIp), () => {
 httpsServer.listen(443, (envar.hostIp), () => {
     console.log('HTTPS Server running on port 443');
 });
+
+jServer.listen(dbPort, dbIp, () => {
+    console.log('JSON Server is running on ' + dbIp + ':' + dbPort)
+})
