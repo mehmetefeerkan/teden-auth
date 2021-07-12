@@ -1,21 +1,38 @@
+console.log("Initializing")
 var express = require('express');
+console.log("Express loaded")
 var app = express();
+console.log("Express primed")
 const jsonServer = require('json-server')
+console.log("json-server loaded")
 const jServer = jsonServer.create()
+console.log("json-server created")
 const router = jsonServer.router('db.json')
+console.log("json-server database set")
 const middlewares = jsonServer.defaults()
+console.log("json-server middlewares set")
 const axios = require('axios')
+console.log("axios loaded")
 const crypto = require('crypto')
+console.log("crypto loaded")
 var md5 = require('md5');
+console.log("md5 loaded")
 const { uuid } = require('uuidv4');
+console.log("uuidv4 loaded")
 const fs = require('fs')
+console.log("uuidv4 loaded")
 const cors = require('cors')
+console.log("cors loaded")
 const envar = require(__dirname + "/env.json")
+console.log("Environment Variables loaded")
 
 
 app.use(express.json())
+console.log("Express middlewares loaded 3/1")
 app.use(require('express-useragent').express())
+console.log("Express middlewares loaded 3/2")
 app.use(cors())
+console.log("Express middlewares loaded 3/3")
 
 let strictRoutes = ["/login", "/register", "/logout"]
 
@@ -269,14 +286,21 @@ const log = {
 
 
 const https = require('https');
+console.log("https loaded")
 const http = require('http');
+console.log("http loaded")
 
 const httpServer = http.createServer(app);
+console.log("httpServer created")
+
 
 const httpsServer = https.createServer({
     key: (envar.privKey),
     cert:(envar.fullChain),
 }, app);
+
+console.log("certificated loaded")
+
 
 httpServer.listen(80, (envar.hostIp), () => {
     console.log('HTTP Server running on port 80');
