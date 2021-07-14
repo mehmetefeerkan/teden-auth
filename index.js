@@ -122,7 +122,7 @@ app.post('/register', function (req, res) {
         id: userID,
         username: user.username,
         password: user.password,
-        loggedIn: false,
+        loggedIn: true,
         requests: 0
     })
         .then(function (response) {
