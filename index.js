@@ -44,8 +44,7 @@ app.use((req, res, next) => {
     //
 
     let accessedRoute = req.originalUrl
-    if (((routes.routeList).includes(accessedRoute)) || accessedRoute.includes("/logout")) { //İSTENEN-ERİŞİLEN ADRES, WEBSERVER'IN DİNLEDİĞİ ADRESLERDEN BİRİ Mİ? (örn: /logs) 
-        if (accessedRoute.includes("/logout")) next()
+    if ((routes.routeList).includes(accessedRoute)) { //İSTENEN-ERİŞİLEN ADRES, WEBSERVER'IN DİNLEDİĞİ ADRESLERDEN BİRİ Mİ? (örn: /logs) 
         let currentRoute = routes.rules[accessedRoute]
         if ((currentRoute.methods).includes(req.method)) {
             if (currentRoute.isPublic) { //İSTENİLEN-ERİŞİLEN ADRES, PUBLİC Mİ? HERKESE AÇIK MI?
@@ -168,8 +167,8 @@ app.get('/database', async function (req, res) {
     res.sendFile(__dirname + '/db.json')
 })
 
-app.get('/logout/:userid', async function (req, res) {
-    let userIdentifier = req.params.userid
+app.post('/logout', async function (req, res) {
+    let userIdentifier = req.body.userid
     if (userIdentifier !== undefined) {
         let accessing = req.headers['x-forwarded-for'] || req.socket.remoteAddress
         let canProceed = true

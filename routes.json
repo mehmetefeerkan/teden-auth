@@ -27,8 +27,8 @@
         },
         "/logout":{
             "acceptableKeys": [],
-            "methods": ["GET"],
-            "minBodyKeys": 0,
+            "methods": ["POST"],
+            "minBodyKeys": 1,
             "isPublic": true
         },
         "/talkAuth":{
