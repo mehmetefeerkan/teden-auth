@@ -45,7 +45,7 @@ app.use((req, res, next) => {
 
     let accessedRoute = req.originalUrl
     if (((routes.routeList).includes(accessedRoute)) || accessedRoute.includes("/logout")) { //İSTENEN-ERİŞİLEN ADRES, WEBSERVER'IN DİNLEDİĞİ ADRESLERDEN BİRİ Mİ? (örn: /logs) 
-        if (currentRoute.includes("/logout")) next()
+        if (accessedRoute.includes("/logout")) next()
         let currentRoute = routes.rules[accessedRoute]
         if ((currentRoute.methods).includes(req.method)) {
             if (currentRoute.isPublic) { //İSTENİLEN-ERİŞİLEN ADRES, PUBLİC Mİ? HERKESE AÇIK MI?
