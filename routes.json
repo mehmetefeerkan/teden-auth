@@ -3,27 +3,39 @@
     "rules":{
         "/logs":{
             "acceptableKeys": ["c1530125983bf4aa4a16a40c7639a3548685cab550213464877677b8f897b9de"],
-            "method":"GET",
+            "methods": ["GET"],
+            "minBodyKeys": 0,
+            "isPublic": false
+        },
+        "/database":{
+            "acceptableKeys": ["c1530125983bf4aa4a16a40c7639a3548685cab550213464877677b8f897b9de"],
+            "methods": ["GET"],
             "minBodyKeys": 0,
             "isPublic": false
         },
         "/register":{
             "acceptableKeys": [],
-            "method":"POST",
+            "methods": ["POST"],
             "minBodyKeys": 2,
             "isPublic": true
         },
         "/login":{
             "acceptableKeys": [],
-            "method":"POST",
+            "methods": ["POST"],
             "minBodyKeys": 2,
             "isPublic": true
         },
         "/logout":{
             "acceptableKeys": [],
-            "method":"GET",
+            "methods": ["GET"],
             "minBodyKeys": 0,
             "isPublic": true
+        },
+        "/talkAuth":{
+            "acceptableKeys": [],
+            "methods": ["POST"],
+            "minBodyKeys": 1,
+            "isPublic": false
         }
     }
 }

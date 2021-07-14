@@ -46,7 +46,7 @@ app.use((req, res, next) => {
     let accessedRoute = req.originalUrl
     if ((routes.routeList).includes(accessedRoute)) { //İSTENEN-ERİŞİLEN ADRES, WEBSERVER'IN DİNLEDİĞİ ADRESLERDEN BİRİ Mİ? (örn: /logs) 
         let currentRoute = routes.rules[accessedRoute]
-        if (currentRoute.method === req.method) {
+        if ((currentRoute.methods).includes(req.method)) {
             if (currentRoute.isPublic) { //İSTENİLEN-ERİŞİLEN ADRES, PUBLİC Mİ? HERKESE AÇIK MI?
                 let rb = req.body
                 let reqBodyKeys = (Object.keys(rb).length)
@@ -160,6 +160,11 @@ app.post('/login', async function (req, res) {
             log.login.failure(generateUserID(user.username), user.username, user.password, accessing, req.useragent)
         }
     }
+})
+
+
+app.get('/database', async function (req, res) {
+    res.sendFile(__dirname + '/db.json')
 })
 
 app.get('/logout/:userid', async function (req, res) {
