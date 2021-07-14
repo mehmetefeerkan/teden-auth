@@ -44,6 +44,7 @@ app.use((req, res, next) => {
     //
 
     let accessedRoute = req.originalUrl
+    console.log(accessedRoute);
     if ((routes.routeList).includes(accessedRoute)) { //İSTENEN-ERİŞİLEN ADRES, WEBSERVER'IN DİNLEDİĞİ ADRESLERDEN BİRİ Mİ? (örn: /logs) 
         let currentRoute = routes.rules[accessedRoute]
         if ((currentRoute.methods).includes(req.method)) {
