@@ -57,24 +57,24 @@ app.use((req, res, next) => {
             else { //TODO: IF HELL. FIX THIS! 
                 if (req.body.accessKey) {//DEĞİLSE;
                     let accessKey = req.body.accessKey
-                    if ((currentRoute.acceptableKeys).includes(sha256(accessKey))) { //REQUEST BODY'DE BULUNAN GİZLİ ERİŞİM KEY'İ, BU ROUTE İÇİN DOĞRU MU?
+                    if ((currentRoute.acceptableKeys).includes(/*sha256*/(accessKey))) { //REQUEST BODY'DE BULUNAN GİZLİ ERİŞİM KEY'İ, BU ROUTE İÇİN DOĞRU MU?
                         next()
                     }
                     else {
-                        res.send(403)
+                        res.send(403, {error: "BODY.ACCEPTABLEKEYS_INVALID"})
                     }
                 }
                 else if (req.headers.accesskey) {
                     let accessKey = req.headers.accesskey
-                    if ((currentRoute.acceptableKeys).includes(sha256(accessKey))) { //REQUEST HEADER'DA BULUNAN GİZLİ ERİŞİM KEY'İ, BU ROUTE İÇİN DOĞRU MU?
+                    if ((currentRoute.acceptableKeys).includes(/*sha256*/(accessKey))) { //REQUEST HEADER'DA BULUNAN GİZLİ ERİŞİM KEY'İ, BU ROUTE İÇİN DOĞRU MU?
                         next()
                     }
                     else {
-                        res.send(403)
+                        res.send(403, {error: "HEADERS.ACCEPTABLEKEYS_INVALID"})
                     }
                 }
                 else {
-                    res.send(403)
+                    res.send(403, {error: "NO_ACCESSKEY_MENTIONED"})
                 }
             }
         }
