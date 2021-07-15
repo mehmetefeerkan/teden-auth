@@ -200,7 +200,7 @@ app.post('/talkAuth', async function (req, res) {
         let accessing = req.headers['x-forwarded-for'] || req.socket.remoteAddress
         let canProceed = true
         const userData = await axios.get(`http://${dbIp}:${dbPort}/userDB/` + userIdentifier).catch(function (error) {
-            res.send(403, "USER_DOES_NOT_EXIST")
+            res.send(200, "USER_DOES_NOT_EXIST")
             canProceed = false
         })
         axios.patch(`http://${dbIp}:${dbPort}/userDB/` + userIdentifier, {
@@ -211,10 +211,10 @@ app.post('/talkAuth', async function (req, res) {
                 res.send(200)
             }
             else {
-                res.send(403, { error: "USER_NOT_LOGGED_IN" })
+                res.send(200, { error: "USER_NOT_LOGGED_IN" })
             }
         } else {
-            res.send(403, { error: "INVALID_CREDIDENTIALS" })
+            res.send(200, { error: "INVALID_CREDIDENTIALS" })
         }
     }
     else {
