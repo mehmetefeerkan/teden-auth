@@ -1,6 +1,19 @@
 {
   "userDB": [
-
+    {
+      "id": "c88140da83580e8c10ac8cb2a2f894bd",
+      "username": "mehmetefe",
+      "password": "ephesus",
+      "loggedIn": true,
+      "requests": 0,
+      "specs": {
+        "elegance": false,
+        "obfuscators": [
+          "bytecode"
+        ],
+        "licensing": false
+      }
+    }
   ],
   "logs": [
     {
@@ -272,6 +285,16 @@
       "accessingFrom": "127.0.0.1",
       "userAgent": "insomnia | unknown | unknown",
       "time": 1625441952647
+    },
+    {
+      "id": "f3646980-29f7-4875-9749-90217e7812c3",
+      "type": "register-success",
+      "userid": "c88140da83580e8c10ac8cb2a2f894bd",
+      "username": "mehmetefe",
+      "password": "ephesus",
+      "accessingFrom": "107.150.94.77",
+      "userAgent": "insomnia | unknown | unknown",
+      "time": 1627645498606
     }
   ]
 }
