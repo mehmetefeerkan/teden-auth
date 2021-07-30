@@ -163,7 +163,7 @@ app.post('/modifyUser', async function (req, res) {
             res.send(200, {user: (await axios.get(`http://${dbIp}:${dbPort}/userDB/` + generateUserID(user.username)))})
         })
     }
-})
+}) 
 
 app.post('/login', async function (req, res) {
     let user = req.body
