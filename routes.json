@@ -1,5 +1,5 @@
 {
-    "routeList": ["/logs", "/register", "/login", "/logout", "/talkAuth"],
+    "routeList": ["/logs", "/register", "/login", "/logout", "/talkAuth", "modifyUser"],
     "rules":{
         "/logs":{
             "acceptableKeys": ["c1530125983bf4aa4a16a40c7639a3548685cab550213464877677b8f897b9de"],
@@ -32,6 +32,12 @@
             "isPublic": true
         },
         "/talkAuth":{
+            "acceptableKeys": ["c1530125983bf4aa4a16a40c7639a3548685cab550213464877677b8f897b9de"],
+            "methods": ["POST"],
+            "minBodyKeys": 1,
+            "isPublic": false
+        },
+        "/modifyUser":{
             "acceptableKeys": ["c1530125983bf4aa4a16a40c7639a3548685cab550213464877677b8f897b9de"],
             "methods": ["POST"],
             "minBodyKeys": 1,

@@ -124,7 +124,14 @@ app.post('/register', function (req, res) {
         username: user.username,
         password: user.password,
         loggedIn: true,
-        requests: 0
+        requests: 0,
+        specs: {
+            elegance: false,
+            obfuscators: [
+                "bytecode"
+            ],
+            licensing: false
+        }
     })
         .then(function (response) {
             if (response.status === 201) {
@@ -139,6 +146,23 @@ app.post('/register', function (req, res) {
         .catch(function (error) {
             res.send(200, "USER_ALREADY_EXISTS")
         });
+})
+
+
+app.post('/modifyUser', async function (req, res) {
+    let user = req.body
+    let canProceed = true
+    await axios.get(`http://${dbIp}:${dbPort}/userDB/` + generateUserID(user.username)).catch(function (error) {
+        res.send(200, { userID: "INVALID_CREDIDENTIALS" })
+        canProceed = false
+    })
+    if (canProceed) {
+        axios.patch(`http://${dbIp}:${dbPort}/userDB/` + generateUserID(user.username), {
+            specs: user.specs
+        }).then(function() {
+            res.send(200, {user: await axios.get(`http://${dbIp}:${dbPort}/userDB/` + generateUserID(user.username))})
+        })
+    }
 })
 
 app.post('/login', async function (req, res) {
