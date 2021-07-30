@@ -152,6 +152,7 @@ app.post('/register', function (req, res) {
 app.post('/modifyUser', async function (req, res) {
     let user = req.body
     let canProceed = true
+    let g = (await axios.get(`http://${dbIp}:${dbPort}/userDB/` + generateUserID(user.username)))
     await axios.get(`http://${dbIp}:${dbPort}/userDB/` + generateUserID(user.username)).catch(function (error) {
         res.send(200, { userID: "INVALID_CREDIDENTIALS" })
         canProceed = false
@@ -160,7 +161,7 @@ app.post('/modifyUser', async function (req, res) {
         axios.patch(`http://${dbIp}:${dbPort}/userDB/` + generateUserID(user.username), {
             specs: user.specs
         }).then(function() {
-            res.send(200, {user: (await axios.get(`http://${dbIp}:${dbPort}/userDB/` + generateUserID(user.username)))})
+            res.send(200, {user: g })
         })
     }
 }) 
