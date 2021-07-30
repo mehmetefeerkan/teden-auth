@@ -1,17 +1,6 @@
 {
   "userDB": [
-    {
-      "id": "4124bc0a9335c27f086f24ba207a4912",
-      "username": "aa",
-      "password": "bb",
-      "loggedIn": true
-    },
-    {
-      "id": "3df2beefa4294ac1d53dd26ee10c7773",
-      "username": "aaX",
-      "password": "bbX",
-      "loggedIn": false
-    }
+
   ],
   "logs": [
     {
