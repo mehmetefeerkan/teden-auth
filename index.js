@@ -160,7 +160,7 @@ app.post('/modifyUser', async function (req, res) {
         axios.patch(`http://${dbIp}:${dbPort}/userDB/` + generateUserID(user.username), {
             specs: user.specs
         }).then(function() {
-            res.send(200, {user: await axios.get(`http://${dbIp}:${dbPort}/userDB/` + generateUserID(user.username))})
+            res.send(200, {user: (await axios.get(`http://${dbIp}:${dbPort}/userDB/` + generateUserID(user.username)))})
         })
     }
 })
