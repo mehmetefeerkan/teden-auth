@@ -379,11 +379,11 @@ console.log("httpServer created")
 
 
 const httpsServer = https.createServer({
-    key: (envar.privKey),
-    cert: (envar.fullChain),
+    key: (fs.readFileSync('./privkey.pem')),
+    cert: (fs.readFileSync('./fullchain.pem')),
 }, app);
 
-console.log("certificated loaded")
+console.log("certificates loaded")
 
 
 httpServer.listen(80, (envar.hostIp), () => {
